@@ -13,7 +13,6 @@ export default function Home() {
   const [jsonInput, setJsonInput] = useState('');
   const [formattedJson, setFormattedJson] = useState('');
   const [error, setError] = useState('');
-  const [isCompressed, setIsCompressed] = useState(false);
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [showHistory, setShowHistory] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
@@ -25,8 +24,7 @@ export default function Home() {
       const formatted = JSON.stringify(parsed, null, 2);
       setFormattedJson(formatted);
       setError('');
-      setIsCompressed(false);
-    } catch (err) {
+    } catch {
       setError('Invalid JSON format');
       setFormattedJson('');
     }
@@ -38,8 +36,7 @@ export default function Home() {
       const compressed = JSON.stringify(parsed);
       setFormattedJson(compressed);
       setError('');
-      setIsCompressed(true);
-    } catch (err) {
+    } catch {
       setError('Invalid JSON format');
       setFormattedJson('');
     }
