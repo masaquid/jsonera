@@ -16,6 +16,7 @@ export default function Home() {
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [showHistory, setShowHistory] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
+  const [copySuccess, setCopySuccess] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const formatJson = (input: string) => {
@@ -55,6 +56,8 @@ export default function Home() {
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(formattedJson);
+    setCopySuccess(true);
+    setTimeout(() => setCopySuccess(false), 2000);
   };
 
   const saveToHistory = (input: string) => {
@@ -143,8 +146,11 @@ export default function Home() {
           <div className="flex justify-between items-start mb-4">
             <div></div>
             <div className="text-center flex-1">
-              <h1 className={`text-4xl font-bold ${textClass} mb-2`}>JSON Formatter & Validator</h1>
-              <p className={textSecondaryClass}>Format, validate, and beautify your JSON data</p>
+              <div className="mb-3">
+                <div className={`text-lg font-light ${textSecondaryClass} tracking-wider`} style={{fontFamily: 'Georgia, "Times New Roman", serif'}}>JSONera</div>
+              </div>
+              <h1 className={`text-4xl font-bold ${textClass} mb-2`} style={{fontFamily: 'Georgia, "Times New Roman", serif'}}>JSON Formatter & Validator</h1>
+              <p className={`${textSecondaryClass} italic`} style={{fontFamily: 'Georgia, "Times New Roman", serif'}}>Format, validate, and beautify your JSON data with elegance</p>
             </div>
             <button
               onClick={toggleTheme}
@@ -250,9 +256,9 @@ export default function Home() {
                   <button
                     onClick={copyToClipboard}
                     disabled={!formattedJson}
-                    className={`px-3 py-1 bg-purple-500/30 hover:bg-purple-500/50 border border-purple-400/30 rounded ${textClass} text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed`}
+                    className={`px-3 py-1 bg-purple-500/30 hover:bg-purple-500/50 border border-purple-400/30 rounded ${textClass} text-sm transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${copySuccess ? 'scale-95 bg-green-500/50 border-green-400/50' : ''}`}
                   >
-                    Copy
+                    {copySuccess ? '✓ Copied!' : 'Copy'}
                   </button>
                 </div>
               </div>
